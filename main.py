@@ -47,39 +47,17 @@ def calc_tan(a, b):
 
 # ========== Bot Commands ==========
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg = """👋 **Sir AI তে স্বাগতম!**
-
-আমি SSC Math Ch-9 ত্রিকোণমিতি সলভ করি।
-
-**কেমনে লিখবেন:**
-বাংলা: `lombo 5 vumi 12`
-English: `height 5 base 12`
-
-**আমি বের করবো:** অতিভুজ, ক্ষেত্রফল, sin, cos, tan
-
-ট্রাই করেন 👇"""
+    msg = """👋 **Sir AI তে স্বাগতম!** আমি SSC Math Ch-9 ত্রিকোণমিতি সলভ করি। **কেমনে লিখবেন:** বাংলা: `lombo 5 vumi 12` English: `height 5 base 12` **আমি বের করবো:** অতিভুজ, ক্ষেত্রফল, sin, cos, tan ট্রাই করেন 👇"""
     await update.message.reply_text(msg)
 
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg = """**Sir AI Help 📐**
-
-**Example 1:**
-`lombo 5 vumi 12`
-
-**Example 2:**
-`height 5 base 12`
-
-**Example 3:**
-`otivuj 13 lombo 5`
-
-যেকোনো 2টা বাহু দিলেই হবে।"""
+    msg = """**Sir AI Help 📐** **Example 1:** `lombo 5 vumi 12` **Example 2:** `height 5 base 12` **Example 3:** `otivuj 13 lombo 5` যেকোনো 2টা বাহু দিলেই হবে।"""
     await update.message.reply_text(msg)
 
 async def solve_math(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     lang = detect_lang(text)
     nums = find_numbers(text)
-
     if len(nums) < 2:
         if lang == "en":
             await update.message.reply_text("Please give 2 numbers. Ex: height 5 base 12")
@@ -99,71 +77,30 @@ async def solve_math(update: Update, context: ContextTypes.DEFAULT_TYPE):
             sin_a = calc_sin(a, c)
             cos_a = calc_cos(b, c)
             tan_a = calc_tan(a, b)
-
             if lang == "en":
-                reply = f"""**Right Triangle Solved 📐**
-
-Height = {a}, Base = {b}
-
-**Hypotenuse** = {c:.2f}
-**Area** = {area:.2f} sq unit
-**sin θ** = {sin_a:.3f}
-**cos θ** = {cos_a:.3f}
-**tan θ** = {tan_a:.3f}"""
+                reply = f"""**Right Triangle Solved 📐** Height = {a}, Base = {b} **Hypotenuse** = {c:.2f} **Area** = {area:.2f} sq unit **sin θ** = {sin_a:.3f} **cos θ** = {cos_a:.3f} **tan θ** = {tan_a:.3f}"""
             else:
-                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐**
-
-লম্ব = {a}, ভূমি = {b}
-
-**অতিভুজ** = {c:.2f}
-**ক্ষেত্রফল** = {area:.2f} বর্গ একক
-**sin θ** = {sin_a:.3f}
-**cos θ** = {cos_a:.3f}
-**tan θ** = {tan_a:.3f}"""
+                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐** লম্ব = {a}, ভূমি = {b} **অতিভুজ** = {c:.2f} **ক্ষেত্রফল** = {area:.2f} বর্গ একক **sin θ** = {sin_a:.3f} **cos θ** = {cos_a:.3f} **tan θ** = {tan_a:.3f}"""
 
         elif has_lombo and has_otivuj:
             a, c = nums[0], nums[1]
-            if c <= a:
-                raise ValueError("Hypotenuse must be bigger")
+            if c <= a: raise ValueError("Hypotenuse must be bigger")
             b = math.sqrt(c**2 - a**2)
             area = calc_area(a, b)
-
             if lang == "en":
-                reply = f"""**Right Triangle Solved 📐**
-
-Height = {a}, Hypotenuse = {c}
-
-**Base** = {b:.2f}
-**Area** = {area:.2f} sq unit"""
+                reply = f"""**Right Triangle Solved 📐** Height = {a}, Hypotenuse = {c} **Base** = {b:.2f} **Area** = {area:.2f} sq unit"""
             else:
-                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐**
-
-লম্ব = {a}, অতিভুজ = {c}
-
-**ভূমি** = {b:.2f}
-**ক্ষেত্রফল** = {area:.2f} বর্গ একক"""
+                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐** লম্ব = {a}, অতিভুজ = {c} **ভূমি** = {b:.2f} **ক্ষেত্রফল** = {area:.2f} বর্গ একক"""
 
         elif has_vumi and has_otivuj:
             b, c = nums[0], nums[1]
-            if c <= b:
-                raise ValueError("Hypotenuse must be bigger")
+            if c <= b: raise ValueError("Hypotenuse must be bigger")
             a = math.sqrt(c**2 - b**2)
             area = calc_area(a, b)
-
             if lang == "en":
-                reply = f"""**Right Triangle Solved 📐**
-
-Base = {b}, Hypotenuse = {c}
-
-**Height** = {a:.2f}
-**Area** = {area:.2f} sq unit"""
+                reply = f"""**Right Triangle Solved 📐** Base = {b}, Hypotenuse = {c} **Height** = {a:.2f} **Area** = {area:.2f} sq unit"""
             else:
-                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐**
-
-ভূমি = {b}, অতিভুজ = {c}
-
-**লম্ব** = {a:.2f}
-**ক্ষেত্রফল** = {area:.2f} বর্গ একক"""
+                reply = f"""**সমকোণী ত্রিভুজ সমাধান 📐** ভূমি = {b}, অতিভুজ = {c} **লম্ব** = {a:.2f} **ক্ষেত্রফল** = {area:.2f} বর্গ একক"""
         else:
             if lang == "en":
                 reply = "Can't understand. Try: height 5 base 12"
@@ -186,7 +123,16 @@ def main():
     print("Sir AI is Running...")
     app.run_polling()
 
+# === Render Free Hack এর জন্য Flask Code ===
+flask_app = Flask(__name__)
+
+@flask_app.route('/')
+def home():
+    return "Sir AI is Alive!"
+
+def run_flask():
+    flask_app.run(host='0.0.0.0', port=10000)
+
 if __name__ == "__main__":
-    python-telegram-bot==20.7
-flask==3.0.3
+    threading.Thread(target=run_flask).start()
     main()
