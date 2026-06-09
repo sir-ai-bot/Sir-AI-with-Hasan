@@ -1,4 +1,6 @@
 import math
+from flask import Flask
+import threading
 import re
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -185,4 +187,6 @@ def main():
     app.run_polling()
 
 if __name__ == "__main__":
+    python-telegram-bot==20.7
+flask==3.0.3
     main()
